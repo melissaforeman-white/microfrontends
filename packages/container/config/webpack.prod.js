@@ -16,6 +16,8 @@ const prodConfig = {
         // any js files that are built are built in this template
         // content hash is there for caching issues
         filename: '[name].[contenthash].js',
+        // this is needed so the src tag that gets added by the plugin will prepend container/latest which is where main is stored in the s3 bucket
+        publicPath: '/container/latest/',
     },
     plugins: [
         new ModuleFederationPlugin({
