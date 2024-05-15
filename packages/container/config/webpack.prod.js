@@ -24,7 +24,7 @@ const prodConfig = {
             name: 'container',
             remotes: {
                 // domain name where the app will be hosted
-                marketing: `marketing@${domain}/marketing/remote.js`
+                marketing: `marketing@${domain}/marketing/latest/remoteEntry.js`
             },
             shared: packageJson.dependencies
         })
