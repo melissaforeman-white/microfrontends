@@ -1,16 +1,14 @@
 import React from "react";
 import { Switch, Route, Router } from 'react-router-dom';
 import { StylesProvider, createGenerateClassName } from "@material-ui/core/styles";
-
-import Landing from './components/Landing';
-import Pricing from './components/Pricing';
-
+import Signup from "./components/Signup";
+import Signin from './components/Signin';
 const generateClassName = createGenerateClassName({
-    productionPrefix: 'ma',
+    productionPrefix: 'au',
 });
 
 // history is received as a prop from bootstrap
-export default ({ history }) => {
+export default ({ history, onSignIn }) => {
     return (
     // we want to use memory history instead of browser history so that the browser history @ container level is not getting overwritten
     // must provide Router history to use since it does not create its own
@@ -19,8 +17,12 @@ export default ({ history }) => {
         <StylesProvider generateClassName={generateClassName}>
             <Router history={history}>
                 <Switch>
-                    <Route exact path="/pricing" component={Pricing}/>
-                    <Route path="/" component={Landing}/>
+                    <Route path="/auth/signin/">
+                        <Signin onSignIn={onSignIn}/>
+                    </Route>
+                    <Route path="/auth/signup/">
+                        <Signup onSignIn={onSignIn}/>
+                    </Route>
                 </Switch>
             </Router>
         </StylesProvider>
