@@ -90,6 +90,8 @@ export default function Album() {
               Something short and leading about the collection below—its
               contents, the creator, etc. Make it short and sweet, but not too
               short so folks don&apos;t simply skip over it entirely.
+
+            <img style={{ height: '75%', width: '75%' }} src='https://easyretro.io/blog/assets/images/28-could-you-answer-me-please.jpg' alt="my-pic" />
             </Typography>
             <div className={classes.heroButtons}>
               <Grid container spacing={2} justifyContent="center">

@@ -1,8 +1,14 @@
+# overall: This workflow automates the deployment process for a containerized application
+# including building, syncing files to S3, and invalidating CloudFront cache. 
+# The secrets (like access keys) are stored securely in GitHub secrets. 
+
 # github will assume this is some sort of workflow
 # .github/workflows is the path expected by github
 # takes yml and converts to json, formatting is tab-based
 
+# workflow name
 name: deploy-container
+# on pushing a code change on the master/main branch within the container app...
 on:
   push:
     branches:
@@ -11,17 +17,21 @@ on:
     paths:
       # only run this workflow when we make a change to something inside container
       - 'packages/container/**'
-# sets execution env to inside of container directory
+# sets execution env to the container directory
 defaults:
   run:
     working-directory: packages/container
-
+# do the following
 jobs:
+# first job, build will run on ubuntu runner (github hosted virtual machine)
   build:
     runs-on: ubuntu-latest
     steps:
+      # checks out repository code
       - uses: actions/checkout@v4
+      # install dependencies
       - run: npm install
+      # build project
       - run: npm run build
         env:
           PRODUCTION_DOMAIN: ${{ secrets.PRODUCTION_DOMAIN }}
@@ -31,6 +41,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: us-east-2
+      # creates cloudfront invalidation for the path /container/latest/index.html. 
       - run: aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_DISTRIBUTION_ID }} --paths "/container/latest/index.html"
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}

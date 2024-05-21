@@ -28,3 +28,4 @@ export default () => {
     // return a plain div with a ref to the html that is being displayed on the screen
     return <div ref={ref} />
 };
+

@@ -6,8 +6,10 @@ const packageJson = require('../package.json')
 const devConfig = {
     mode: 'development',
     output: {
+        // specifies output config for the bundled files
         publicPath: 'http://localhost:8080/'
     },
+    // configures the development server
     devServer: {
         port: 8080,
         historyApiFallback: {
@@ -17,11 +19,13 @@ const devConfig = {
     plugins: [
         new ModuleFederationPlugin({
             name: 'container',
+            // container can load  these remote modules dynamically
             remotes: {
                 marketing: 'marketing@http://localhost:8081/remoteEntry.js',
                 auth: 'auth@http://localhost:8082/remoteEntry.js',
                 dashboard: 'dashboard@http://localhost:8083/remoteEntry.js',
             },
+            // shared dependencies
             shared: packageJson.dependencies,
         }),
     ]
