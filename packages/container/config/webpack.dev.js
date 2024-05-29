@@ -35,3 +35,4 @@ const devConfig = {
 //the commonConfig file
 module.exports = merge(commonConfig, devConfig);
 
+  
