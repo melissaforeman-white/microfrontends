@@ -29,7 +29,13 @@ jobs:
     steps:
       # checks out repository code
       - uses: actions/checkout@v4
-      # install dependencies
+      # cache dependencies so they don't have to be installed from scratch each time
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
+      # install dependencies, if npm cache is there it will use it and if not it will download and then put dependencies in the folder if they weren't there before
       - run: npm install
       # build project
       - run: npm run build
